@@ -1,20 +1,28 @@
 package com.kafka.stream;
 
 import com.kafka.stream.proto.MovieEvent;
+import com.kafka.stream.proto.RatedMovieEvent;
 import com.kafka.stream.proto.RatingEvent.Rating;
 import com.kafka.stream.serde.MovieSerializer;
+import com.kafka.stream.serde.RatedMovieDeSerializer;
 import com.kafka.stream.serde.RatingSerializer;
+import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.clients.consumer.ConsumerRecords;
+import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.common.serialization.LongDeserializer;
 import org.apache.kafka.common.serialization.LongSerializer;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.Duration;
+import java.util.Arrays;
 import java.util.Properties;
 
 @SpringBootTest
-class RatedMoviesApplicationTIests {
+class RatedMoviesApplicationITests {
 
 
     @Test
@@ -66,6 +74,23 @@ class RatedMoviesApplicationTIests {
         ratingKafkaProducer.send(new ProducerRecord<>("ratings", theBigLebowskiRating2.getId(), theBigLebowskiRating2));
         ratingKafkaProducer.send(new ProducerRecord<>("ratings", superMarioBrosRating.getId(), superMarioBrosRating));
 
-        // consume rated movie data
+        // consume rated movie data and print
+        Properties consumerProperties = new Properties();
+        consumerProperties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9093");
+        consumerProperties.put(ConsumerConfig.GROUP_ID_CONFIG, "client-group-id");
+        consumerProperties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, LongDeserializer.class);
+        consumerProperties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, RatedMovieDeSerializer.class);
+
+        KafkaConsumer<Long, RatedMovieEvent.RatedMovie> consumer = new KafkaConsumer<>(consumerProperties);
+        consumer.subscribe(Arrays.asList("rated-movies"));
+        ConsumerRecords<Long, RatedMovieEvent.RatedMovie> consumerRecords = consumer.poll(Duration.ofSeconds(5));
+        consumerRecords.records("rated-movies").forEach(record -> {
+            RatedMovieEvent.RatedMovie ratedMovie = record.value();
+            System.out.println("id : " + ratedMovie.getId()
+                    + " title : " + ratedMovie.getTitle()
+                    + " release year : " + ratedMovie.getReleaseYear()
+                    + " rating : " + ratedMovie.getRating());
+        });
+
     }
 }

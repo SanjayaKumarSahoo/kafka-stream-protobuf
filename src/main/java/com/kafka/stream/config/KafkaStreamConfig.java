@@ -56,21 +56,21 @@ public class KafkaStreamConfig {
         final String ratingTopic = envProps.getProperty("kafka.rating.topic.name");
         final String ratedMoviesTopic = envProps.getProperty("kafka.rated.movies.topic.name");
 
-        KStream<String, MovieEvent.Movie> movieStream =
+        KStream<Long, MovieEvent.Movie> movieStream =
                 builder.stream(movieTopic, Consumed.with(Serdes.String(), CustomSerdes.movie()))
-                        .map((key, movie) -> new KeyValue<>(String.valueOf(movie.getId()), movie));
+                        .map((key, movie) -> new KeyValue<>(movie.getId(), movie));
 
-        movieStream.to(rekeyedMovieTopic, Produced.with(Serdes.String(), CustomSerdes.movie()));
+        movieStream.to(rekeyedMovieTopic, Produced.with(Serdes.Long(), CustomSerdes.movie()));
 
-        KTable<String, MovieEvent.Movie> movies = builder.table(rekeyedMovieTopic);
+        KTable<Long, MovieEvent.Movie> movies = builder.table(rekeyedMovieTopic);
 
-        KStream<String, RatingEvent.Rating> ratings =
+        KStream<Long, RatingEvent.Rating> ratings =
                 builder.stream(ratingTopic, Consumed.with(Serdes.String(), CustomSerdes.rating()))
-                        .map((key, rating) -> new KeyValue<>(String.valueOf(rating.getId()), rating));
+                        .map((key, rating) -> new KeyValue<>(rating.getId(), rating));
 
-        KStream<String, RatedMovieEvent.RatedMovie> ratedMovie = ratings.join(movies, movieRatingJoiner);
+        KStream<Long, RatedMovieEvent.RatedMovie> ratedMovie = ratings.join(movies, movieRatingJoiner);
 
-        ratedMovie.to(ratedMoviesTopic, Produced.with(Serdes.String(), CustomSerdes.ratedMovie()));
+        ratedMovie.to(ratedMoviesTopic, Produced.with(Serdes.Long(), CustomSerdes.ratedMovie()));
         return builder.build();
     }
 }

@@ -16,7 +16,7 @@ $ bin/kafka-topics.sh --create --topic ratings --bootstrap-server localhost:9093
 $ bin/kafka-topics.sh --create --topic rated-movies --bootstrap-server localhost:9093
 ```
 
-### Build and Run
+### build and Run
 ```shell script
 $ ./mvnw clean install
 $ ./mvnw spring-boot:run

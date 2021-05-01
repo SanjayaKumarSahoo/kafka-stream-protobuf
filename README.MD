@@ -21,10 +21,17 @@ $ bin/kafka-topics.sh --create --topic rated-movies --bootstrap-server localhost
 $ ./mvnw clean install
 $ ./mvnw spring-boot:run
 ```
+### inspect
+```shell script
+$ bin/kafka-console-consumer.sh --bootstrap-server localhost:9093 --topic movies --from-beginning
+```
 
-
-### kafka stop
+### clean up
  ```shell script
+$ bin/kafka-topics.sh  --bootstrap-server localhost:9093 --delete --topic movies
+$ bin/kafka-topics.sh  --bootstrap-server localhost:9093 --delete --topic tatings
+$ bin/kafka-topics.sh  --bootstrap-server localhost:9093 --delete --topic rekeyed-movies
+$ bin/kafka-topics.sh  --bootstrap-server localhost:9093 --delete --topic rated-movies
 $ docker-compose stop
 $ docker-compose rm --force
 ```

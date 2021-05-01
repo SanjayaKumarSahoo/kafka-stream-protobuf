@@ -1,3 +1,4 @@
 /.idea/
 /data/kafka-stream-applicaiton/
 /target/
+/kafka-stream.iml

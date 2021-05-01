@@ -1,16 +1,10 @@
 package com.kafka.stream.config;
 
-import com.kafka.stream.proto.MovieEvent;
-import com.kafka.stream.proto.RatingEvent;
 import com.kafka.stream.serde.MovieDeSerializer;
 import com.kafka.stream.serde.RatingDeSerializer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.Serdes;
-import org.apache.kafka.streams.KafkaStreams;
-import org.apache.kafka.streams.KeyValue;
-import org.apache.kafka.streams.StreamsBuilder;
-import org.apache.kafka.streams.StreamsConfig;
-import org.apache.kafka.streams.Topology;
+import org.apache.kafka.streams.*;
 import org.apache.kafka.streams.kstream.Consumed;
 import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.KTable;
@@ -24,10 +18,19 @@ import java.util.Properties;
 @Configuration
 public class KafkaStreamConfig {
 
+    @Bean
+    public MovieDeSerializer movieDeSerializer() {
+        return new MovieDeSerializer();
+    }
 
     @Bean
-    public MovieRatingJoiner movieRatingJoiner() {
-        return new MovieRatingJoiner();
+    public RatingDeSerializer ratingDeSerializer() {
+        return new RatingDeSerializer();
+    }
+
+    @Bean
+    public MovieRatingJoiner movieRatingJoiner(MovieDeSerializer movieDeSerializer, RatingDeSerializer ratingDeSerializer) {
+        return new MovieRatingJoiner(movieDeSerializer, ratingDeSerializer);
     }
 
     @Bean(destroyMethod = "close")
@@ -46,7 +49,7 @@ public class KafkaStreamConfig {
         properties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         properties.put(StreamsConfig.CLIENT_ID_CONFIG, envProps.getProperty("kafka.client.id"));
         properties.put(ConsumerConfig.GROUP_ID_CONFIG, envProps.getProperty("kafka.group.id"));
-        properties.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.Long().getClass().getName());
+        properties.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.ByteArray().getClass().getName());
         properties.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.ByteArray().getClass().getName());
         return properties;
     }
@@ -58,29 +61,21 @@ public class KafkaStreamConfig {
         final String ratingTopic = envProps.getProperty("kafka.rating.topic.name");
         final String ratedMoviesTopic = envProps.getProperty("kafka.rated.movies.topic.name");
 
-        KStream<Long, byte[]> movieStream =
+        KStream<byte[], byte[]> movieStream =
                 builder.stream(movieTopic, Consumed.with(Serdes.ByteArray(), Serdes.ByteArray()))
-                        .map((keyByte, movieByte) -> {
-                            MovieDeSerializer movieDeSerializer = new MovieDeSerializer();
-                            MovieEvent.Movie movie = movieDeSerializer.deserialize("", movieByte);
-                            return new KeyValue<>(movie.getId(), movieByte);
-                        });
+                        .map(KeyValue::new);
 
-        movieStream.to(rekeyedMovieTopic, Produced.with(Serdes.Long(), Serdes.ByteArray()));
+        movieStream.to(rekeyedMovieTopic, Produced.with(Serdes.ByteArray(), Serdes.ByteArray()));
 
-        KTable<Long, byte[]> movies = builder.table(rekeyedMovieTopic);
+        KTable<byte[], byte[]> movies = builder.table(rekeyedMovieTopic);
 
-        KStream<Long, byte[]> ratings =
+        KStream<byte[], byte[]> ratings =
                 builder.stream(ratingTopic, Consumed.with(Serdes.ByteArray(), Serdes.ByteArray()))
-                        .map((keyByte, ratingBte) -> {
-                            RatingDeSerializer ratingDeSerializer = new RatingDeSerializer();
-                            RatingEvent.Rating rating = ratingDeSerializer.deserialize("", ratingBte);
-                            return new KeyValue<>(rating.getId(), ratingBte);
-                        });
+                        .map(KeyValue::new);
 
-        KStream<Long, byte[]> ratedMovie = ratings.join(movies, movieRatingJoiner);
+        KStream<byte[], byte[]> ratedMovie = ratings.join(movies, movieRatingJoiner);
 
-        ratedMovie.to(ratedMoviesTopic, Produced.with(Serdes.Long(), Serdes.ByteArray()));
+        ratedMovie.to(ratedMoviesTopic, Produced.with(Serdes.ByteArray(), Serdes.ByteArray()));
         return builder.build();
     }
 }

@@ -21,9 +21,9 @@ $ bin/kafka-topics.sh --create --topic rated-movies --bootstrap-server localhost
 $ ./mvnw clean install
 $ ./mvnw spring-boot:run
 ```
-### inspect
+### inspect result
 ```shell script
-$ bin/kafka-console-consumer.sh --bootstrap-server localhost:9093 --topic movies --from-beginning
+$ bin/kafka-console-consumer.sh --bootstrap-server localhost:9093 --topic rated-movies --from-beginning
 ```
 
 ### clean up

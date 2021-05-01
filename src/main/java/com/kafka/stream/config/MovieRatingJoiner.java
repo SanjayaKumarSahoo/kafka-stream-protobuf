@@ -10,14 +10,18 @@ import org.apache.kafka.streams.kstream.ValueJoiner;
 
 
 public class MovieRatingJoiner implements ValueJoiner<byte[], byte[], byte[]> {
+
+    private final MovieDeSerializer movieDeSerializer;
+    private final RatingDeSerializer ratingDeSerializer;
+
+    public MovieRatingJoiner(MovieDeSerializer movieDeSerializer, RatingDeSerializer ratingDeSerializer) {
+        this.movieDeSerializer = movieDeSerializer;
+        this.ratingDeSerializer = ratingDeSerializer;
+    }
+
     public byte[] apply(byte[] ratingByte, byte[] movieByte) {
-
-        MovieDeSerializer movieDeSerializer = new MovieDeSerializer();
         MovieEvent.Movie movie = movieDeSerializer.deserialize("", movieByte);
-
-        RatingDeSerializer ratingDeSerializer = new RatingDeSerializer();
         RatingEvent.Rating rating = ratingDeSerializer.deserialize("", ratingByte);
-
         RatedMovieEvent.RatedMovie ratedMovie = RatedMovieEvent.RatedMovie.newBuilder()
                 .setId(movie.getId())
                 .setTitle(movie.getTitle())

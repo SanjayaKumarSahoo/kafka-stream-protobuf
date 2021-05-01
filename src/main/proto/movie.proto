@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+option java_outer_classname = "MovieEvent";
+option java_package = "com.kafka.stream.proto";
+
+message Movie {
+  int64 id = 1;
+  string title = 2;
+  int32 release_year = 3;
+}

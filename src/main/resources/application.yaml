@@ -1,0 +1,15 @@
+server:
+  port: 8080
+  servlet:
+    contextPath: /v1
+
+kafka:
+  application-id: kafka-stream-applicaiton
+  bootstrap-servers:  localhost:9093
+  client.id: client-kafka-stream-applicaiton
+  group.id: group-kafka-stream-applicaiton
+  state.dir: data
+  movie.topic.name: movies
+  rekeyed.movie.topic.name: rekeyed-movies
+  rating.topic.name: ratings
+  rated.movies.topic.name: rated-movies

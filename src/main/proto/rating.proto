@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+option java_outer_classname = "RatingEvent";
+option java_package = "com.kafka.stream.proto";
+
+message Rating {
+  int64 id = 1;
+  double rating = 2;
+}

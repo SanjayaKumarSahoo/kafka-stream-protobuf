@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+option java_outer_classname = "RatedMovieEvent";
+option java_package = "com.kafka.stream.proto";
+
+message RatedMovie {
+  int64 id = 1;
+  string title = 2;
+  int32 release_year = 3;
+  double rating = 4;
+}

@@ -3,6 +3,7 @@
 - This example contains the protobuf format
   of [confluent join example](https://kafka-tutorials.confluent.io/join-a-stream-to-a-table/kstreams.html) running on
   apache kafka
+- This example does not use schema registry / or any confluent API's to run stream join example   
 
 ### pre-requisite
 

@@ -1,6 +1,8 @@
 /.idea/
 /data/kafka-stream-applicaiton/
 /target/
+/data/
+/word/
 /kafka-stream.iml
 /word/kafka-stream-applicaiton/1_0/.checkpoint
 /word/kafka-stream-applicaiton/0_0/.lock

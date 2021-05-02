@@ -20,3 +20,4 @@ kafka:
   # word count example config
   text.count.input.topic: streams-plaintext-input
   word.count.output.topic: streams-wordcount-output
+  word.count.state.dir: word

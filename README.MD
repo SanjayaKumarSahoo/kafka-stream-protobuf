@@ -18,10 +18,14 @@ $ docker-compose up -d
 ### create topics
 
  ```shell script
+# movie rated topic examples topics  
 $ bin/kafka-topics.sh --create --topic movies --bootstrap-server localhost:9093
 $ bin/kafka-topics.sh --create --topic rekeyed-movies --bootstrap-server localhost:9093
 $ bin/kafka-topics.sh --create --topic ratings --bootstrap-server localhost:9093
 $ bin/kafka-topics.sh --create --topic rated-movies --bootstrap-server localhost:9093
+# word count example topics  
+$ bin/kafka-topics.sh --create --topic streams-plaintext-input --bootstrap-server localhost:9093
+$ bin/kafka-topics.sh --create --topic streams-wordcount-output --bootstrap-server localhost:9093
 ```
 
 ### build and run

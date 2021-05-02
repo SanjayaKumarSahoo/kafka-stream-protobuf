@@ -36,7 +36,7 @@ public class WordCountStreamConfig {
         Properties properties = new Properties();
         properties.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, envProps.getProperty("kafka.bootstrap-servers"));
         properties.put(StreamsConfig.APPLICATION_ID_CONFIG, envProps.getProperty("kafka.application-id"));
-        properties.put(StreamsConfig.STATE_DIR_CONFIG, envProps.getProperty("kafka.state.dir"));
+        properties.put(StreamsConfig.STATE_DIR_CONFIG, envProps.getProperty("kafka.word.count.state.dir"));
         properties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         properties.put(StreamsConfig.CLIENT_ID_CONFIG, envProps.getProperty("kafka.client.id"));
         properties.put(ConsumerConfig.GROUP_ID_CONFIG, envProps.getProperty("kafka.group.id"));

@@ -2,3 +2,15 @@
 /data/kafka-stream-applicaiton/
 /target/
 /kafka-stream.iml
+/word/kafka-stream-applicaiton/1_0/.checkpoint
+/word/kafka-stream-applicaiton/0_0/.lock
+/word/kafka-stream-applicaiton/1_0/.lock
+/word/kafka-stream-applicaiton/1_0/rocksdb/KSTREAM-AGGREGATE-STATE-STORE-0000000003/000006.log
+/word/kafka-stream-applicaiton/1_0/rocksdb/KSTREAM-AGGREGATE-STATE-STORE-0000000003/CURRENT
+/word/kafka-stream-applicaiton/1_0/rocksdb/KSTREAM-AGGREGATE-STATE-STORE-0000000003/IDENTITY
+/word/kafka-stream-applicaiton/1_0/rocksdb/KSTREAM-AGGREGATE-STATE-STORE-0000000003/LOCK
+/word/kafka-stream-applicaiton/1_0/rocksdb/KSTREAM-AGGREGATE-STATE-STORE-0000000003/LOG
+/word/kafka-stream-applicaiton/1_0/rocksdb/KSTREAM-AGGREGATE-STATE-STORE-0000000003/LOG.old.1619935086361289
+/word/kafka-stream-applicaiton/1_0/rocksdb/KSTREAM-AGGREGATE-STATE-STORE-0000000003/MANIFEST-000005
+/word/kafka-stream-applicaiton/1_0/rocksdb/KSTREAM-AGGREGATE-STATE-STORE-0000000003/OPTIONS-000008
+/word/kafka-stream-applicaiton/1_0/rocksdb/KSTREAM-AGGREGATE-STATE-STORE-0000000003/OPTIONS-000010

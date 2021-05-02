@@ -3,13 +3,21 @@ server:
   servlet:
     contextPath: /v1
 
+# set spring profile active
+spring.profiles.active: movie-rated
+
 kafka:
   application-id: kafka-stream-applicaiton
-  bootstrap-servers:  localhost:9093
+  bootstrap-servers: localhost:9093
   client.id: client-kafka-stream-applicaiton
   group.id: group-kafka-stream-applicaiton
+  # movie rated example config
   state.dir: data
   movie.topic.name: movies
   rekeyed.movie.topic.name: rekeyed-movies
   rating.topic.name: ratings
   rated.movies.topic.name: rated-movies
+  # word count example config
+  text.count.input.topic: streams-plaintext-input
+  word.count.output.topic: streams-wordcount-output
+  word.count.state.store: word

@@ -3,7 +3,7 @@
 - This example contains the protobuf format
   of [confluent join example](https://kafka-tutorials.confluent.io/join-a-stream-to-a-table/kstreams.html) running on
   apache kafka
-- This example does not use schema registry / or any confluent API's to run stream join example   
+- This example does not use schema registry / or any confluent API's to run stream join example
 
 ### pre-requisite
 
@@ -31,10 +31,16 @@ $ ./mvnw clean install
 $ ./mvnw spring-boot:run
 ```
 
+### profiles
+
+- movie-rated
+- word-count
+
 ### test
 
 - ensure kafka is up
-- run RatedMoviesApplicationITests, inspect the result through stdout
+- set active profile in src/main/resources/application.yaml
+- run respective test cases, inspect the result in stdout
 
 ### inspect result
 

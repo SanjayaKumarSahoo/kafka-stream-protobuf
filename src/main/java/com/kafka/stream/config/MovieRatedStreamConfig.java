@@ -9,14 +9,18 @@ import org.apache.kafka.streams.kstream.Consumed;
 import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.KTable;
 import org.apache.kafka.streams.kstream.Produced;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 
 import java.util.Properties;
 
 @Configuration
-public class KafkaStreamConfig {
+@Profile("movie-rated")
+public class MovieRatedStreamConfig {
 
     @Bean
     public MovieDeSerializer movieDeSerializer() {
@@ -34,7 +38,8 @@ public class KafkaStreamConfig {
     }
 
     @Bean(destroyMethod = "close")
-    public KafkaStreams kafkaStreams(Environment envProps, MovieRatingJoiner movieRatingJoiner) {
+    @Qualifier("movingRatedKafkaStream")
+    public KafkaStreams movingRatedKafkaStream(Environment envProps, MovieRatingJoiner movieRatingJoiner) {
         Topology topology = buildTopology(envProps, movieRatingJoiner);
         final KafkaStreams streams = new KafkaStreams(topology, properties(envProps));
         streams.start();

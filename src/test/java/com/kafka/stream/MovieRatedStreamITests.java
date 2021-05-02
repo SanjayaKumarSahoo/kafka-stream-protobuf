@@ -16,13 +16,15 @@ import org.apache.kafka.common.serialization.LongDeserializer;
 import org.apache.kafka.common.serialization.LongSerializer;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.Properties;
 
 @SpringBootTest
-class RatedMoviesApplicationITests {
+@ActiveProfiles("movie-rated")
+class MovieRatedStreamITests {
 
 
     @Test

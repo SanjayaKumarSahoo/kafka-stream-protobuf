@@ -46,19 +46,18 @@ $ ./mvnw spring-boot:run
 - set active profile in src/main/resources/application.yaml
 - run respective test cases, inspect the result in stdout
 
-### inspect result
-
-```shell script
-$ bin/kafka-console-consumer.sh --bootstrap-server localhost:9093 --topic rated-movies --from-beginning
-```
 
 ### clean up
 
  ```shell script
+# movie rated example topic delete  
 $ bin/kafka-topics.sh  --bootstrap-server localhost:9093 --delete --topic movies
 $ bin/kafka-topics.sh  --bootstrap-server localhost:9093 --delete --topic tatings
 $ bin/kafka-topics.sh  --bootstrap-server localhost:9093 --delete --topic rekeyed-movies
 $ bin/kafka-topics.sh  --bootstrap-server localhost:9093 --delete --topic rated-movies
+# word count topic delete  
+$ bin/kafka-topics.sh  --bootstrap-server localhost:9093 --delete --topic streams-plaintext-input
+$ bin/kafka-topics.sh  --bootstrap-server localhost:9093 --delete --topic streams-wordcount-output
 $ docker-compose stop
 $ docker-compose rm --force
 ```

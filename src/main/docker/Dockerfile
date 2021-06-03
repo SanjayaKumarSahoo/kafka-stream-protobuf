@@ -1,5 +1,5 @@
 FROM azul/zulu-openjdk:11
-EXPOSE 8080
+EXPOSE 8080 7070
 
 COPY launch.sh /service/launch.sh
 RUN chmod 755 /service/launch.sh

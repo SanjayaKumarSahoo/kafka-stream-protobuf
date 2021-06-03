@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-stream-protobuf-v1
+  namespace: processing
+  labels:
+    app: kafka-stream-protobuf
+    version: v1
+spec:
+  ports:
+    - port: 80
+      name: http
+      targetPort: ui-port
+  selector:
+    app: kafka-stream-protobuf
+    version: v1

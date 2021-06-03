@@ -121,6 +121,7 @@
                             <includes>
                                 <include>Dockerfile</include>
                                 <include>launch.sh</include>
+                                <include>jmx_prometheus_javaagent-0.15.0.jar</include>
                             </includes>
                         </resource>
                     </resources>

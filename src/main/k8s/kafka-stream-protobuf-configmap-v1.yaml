@@ -29,3 +29,9 @@ data:
       text.count.input.topic: streams-plaintext-input
       word.count.output.topic: streams-wordcount-output
       word.count.state.dir: /state/word
+  metrics.yaml: |
+    startDelaySeconds: 0
+    lowercaseOutputName: false
+    lowercaseOutputLabelNames: false
+    rules:
+      pattern: ".*"

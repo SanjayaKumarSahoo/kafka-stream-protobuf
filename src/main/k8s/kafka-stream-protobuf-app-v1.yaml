@@ -36,8 +36,6 @@ spec:
               value: file:/config/
             - name: JAVA_OPTS
               value: -XX:MaxMetaspaceSize=128M -XX:+UseG1GC -XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.port=5555 -Dcom.sun.management.jmxremote.rmi.port=5555 -Djava.rmi.server.hostname=127.0.0.1
-          #args:
-          #  - '-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.port=5555 -Dcom.sun.management.jmxremote.rmi.port=5555 -Djava.rmi.server.hostname=127.0.0.1'
           imagePullPolicy: IfNotPresent
           resources:
             requests:
@@ -51,11 +49,20 @@ spec:
               name: config-volume
             - mountPath: /state
               name: state-volume
+            - mountPath: /metrics
+              name: metrics-volume
       imagePullSecrets:
         - name: regcred
       volumes:
         - name: state-volume
-          emptyDir: {}
+          emptyDir: { }
+        - name: metrics-volume
+          configMap:
+            name: kafka-stream-protobuf-v1
+            items:
+              - key: metrics.yaml
+                path: metrics.yaml
+                mode:
         - name: config-volume
           configMap:
             name: kafka-stream-protobuf-v1

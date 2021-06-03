@@ -18,6 +18,7 @@ default_cmd_args() {
 parse_args() {
   EXTRA_ARGS=""
   EXTRA_OPTIONS=""
+  JMX_PROMETHEUS_OPTIONS=""
   while [ "$#" -gt 0 ] ; do
     case "$1" in
       --show-command)
@@ -51,8 +52,7 @@ parse_args() {
 default_cmd_args
 parse_args "$@"
 SHOW_COMMAND="true"
-
-
+JMX_PROMETHEUS_OPTIONS="$JMX_PROMETHEUS_OPTIONS -javaagent:/service/jmx_prometheus_javaagent-0.15.0.jar=7070:/metrics/metrics.yaml"
 
 cmd="exec java \
   -XX:MaxTenuringThreshold=15 \
@@ -61,6 +61,7 @@ cmd="exec java \
   "
 cmd=$cmd" ${OPTIONS}"
 cmd=$cmd" ${EXTRA_OPTIONS}"
+cmd=$cmd" ${JMX_PROMETHEUS_OPTIONS}"
 cmd=$cmd" -jar /service/app.jar"
 cmd=$cmd" ${ARGS}"
 

@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-stream-protobuf-v1
+  annotations:
+    deployment.kubernetes.io/revision: "SNAPSHOT"
+  namespace: processing
+  labels:
+    app: kafka-stream-protobuf
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka-stream-protobuf
+      version: v1
+  revisionHistoryLimit: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  template:
+    metadata:
+      annotations:
+        kubernetes.io/change-cause: "SNAPSHOT"
+      labels:
+        app: kafka-stream-protobuf
+        version: v1
+    spec:
+      containers:
+        - name: kafka-stream-protobuf
+          image: deveco.azurecr.io/com.kafka.stream:kafka-stream-1.0.0-SNAPSHOT
+          env:
+            - name: CONFIG_LOC
+              value: file:/config/
+            - name: JAVA_OPTS
+              value: -XX:MaxMetaspaceSize=128M -XX:+UseG1GC -XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: 1024Mi
+              cpu: 300m
+            limits:
+              memory: 1024Mi
+              cpu: 300m
+          volumeMounts:
+            - mountPath: /config
+              name: config-volume
+      imagePullSecrets:
+        - name: regcred
+      volumes:
+        - name: config-volume
+          configMap:
+            name: kafka-stream-protobuf-v1
+            items:
+              - key: application.yaml
+                path: application.yaml
+                mode: 0755

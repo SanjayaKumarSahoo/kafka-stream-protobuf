@@ -30,13 +30,15 @@ spec:
     spec:
       containers:
         - name: kafka-stream-protobuf
-          image: deveco.azurecr.io/com.kafka.stream:kafka-stream-1.0.0-SNAPSHOT
+          image: com.kafka.stream:kafka-stream-1.0.0-SNAPSHOT
           env:
             - name: CONFIG_LOC
               value: file:/config/
             - name: JAVA_OPTS
-              value: -XX:MaxMetaspaceSize=128M -XX:+UseG1GC -XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0
-          imagePullPolicy: Always
+              value: -XX:MaxMetaspaceSize=128M -XX:+UseG1GC -XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0 -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.port=5555 -Dcom.sun.management.jmxremote.rmi.port=5555 -Djava.rmi.server.hostname=127.0.0.1
+          #args:
+          #  - '-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.port=5555 -Dcom.sun.management.jmxremote.rmi.port=5555 -Djava.rmi.server.hostname=127.0.0.1'
+          imagePullPolicy: IfNotPresent
           resources:
             requests:
               memory: 1024Mi
@@ -47,9 +49,13 @@ spec:
           volumeMounts:
             - mountPath: /config
               name: config-volume
+            - mountPath: /state
+              name: state-volume
       imagePullSecrets:
         - name: regcred
       volumes:
+        - name: state-volume
+          emptyDir: {}
         - name: config-volume
           configMap:
             name: kafka-stream-protobuf-v1

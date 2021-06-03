@@ -13,14 +13,14 @@ data:
       servlet:
         contextPath: /v1
     # set spring profile active
-    spring.profiles.active: movie-rated
+    spring.profiles.active: word-count
     kafka:
       application-id: kafka-stream-applicaiton
-      bootstrap-servers: localhost:9093
+      bootstrap-servers: my-cluster-2-kafka-bootstrap.kafka2.svc.cluster.local:9092
       client.id: client-kafka-stream-applicaiton
       group.id: group-kafka-stream-applicaiton
       # movie rated example config
-      state.dir: data
+      state.dir: /state/data
       movie.topic.name: movies
       rekeyed.movie.topic.name: rekeyed-movies
       rating.topic.name: ratings
@@ -28,4 +28,4 @@ data:
       # word count example config
       text.count.input.topic: streams-plaintext-input
       word.count.output.topic: streams-wordcount-output
-      word.count.state.dir: word
+      word.count.state.dir: /state/word

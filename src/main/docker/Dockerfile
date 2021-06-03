@@ -1,4 +1,4 @@
-FROM azul/zulu-openjdk-alpine:11-jre
+FROM openjdk:11-jre-slim
 EXPOSE 8080
 
 COPY launch.sh /service/launch.sh

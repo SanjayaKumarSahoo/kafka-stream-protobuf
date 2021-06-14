@@ -1,4 +1,0 @@
-- job_name: 'kafka-stream-protobuf'
-  static_configs:
-    - targets:
-        - kafka-stream-protobuf-v1.processing.svc.cluster.local

@@ -16,7 +16,7 @@ data:
     spring.profiles.active: word-count
     kafka:
       application-id: kafka-stream-applicaiton
-      bootstrap-servers: my-cluster-2-kafka-bootstrap.kafka2.svc.cluster.local:9092
+      bootstrap-servers: kafka260-headless.kafka1.svc.cluster.local:9092
       client.id: client-kafka-stream-applicaiton
       group.id: group-kafka-stream-applicaiton
       # movie rated example config

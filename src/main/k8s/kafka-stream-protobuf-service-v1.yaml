@@ -11,6 +11,7 @@ spec:
     - port: 80
       name: http
       targetPort: ui-port
+  clusterIP: None
   selector:
     app: kafka-stream-protobuf
     version: v1
